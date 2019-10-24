@@ -7,6 +7,8 @@
     subnet: Webserver
     resource_group: webserver_user4
     domain_sub: domainuser4
+    websiteheader: "Ansible Playbook"
+    websiteauthor: "Weyhe"
 
   vars_prompt:
     - name: adminUser
@@ -110,9 +112,7 @@
     shell: |
       ssh-copy-id "{{ adminUser }}@{{ webserver_ip_fact }}"
 
-  vars:
-    websiteheader: "Ansible Playbook"
-    websiteauthor: "Weyhe"
+
 
 - hosts: webserver
   become: yes
