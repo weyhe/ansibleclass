@@ -32,7 +32,6 @@
       virtual_network_name: "{{ virtual_network_name }}"
       name: "{{ subnet }}"
       address_prefix_cidr: "10.99.0.0/24"
-
   - name: Create a public ip address for webserver
     azure_rm_publicipaddress:
       resource_group: "{{ resource_group }}"
@@ -70,7 +69,6 @@
         - name: "webserver_nic01_ipconfig"
           public_ip_address_name: "public_ip_webserver"
           primary: True
-  
   - name: Create a VM webserver
     azure_rm_virtualmachine:
       resource_group: "{{ resource_group }}"
@@ -87,7 +85,7 @@
         version: latest
       vm_size: Standard_A1_v2
       network_interfaces: "webserver_nic01"
-    
+
   - name: Get facts for webserver Public IP
     azure_rm_publicipaddress_facts:
       resource_group: "{{ resource_group }}"
@@ -111,3 +109,12 @@
   - name: Copy SSH ID
     shell: |
       ssh-copy-id "{{ adminUser }}@{{ webserver_ip_fact }}"
+
+- hosts: webserver
+  become: yes
+  vars:
+  tasks:
+  - name: Install Apache
+    dnf:
+      name: httpd
+      state: latest
