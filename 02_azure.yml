@@ -87,3 +87,27 @@
         version: latest
       vm_size: Standard_A1_v2
       network_interfaces: "webserver_nic01"
+    
+  - name: Get facts for webserver Public IP
+    azure_rm_publicipaddress_facts:
+      resource_group: "{{ resource_group }}"
+      name: "public_ip_webserver"
+    register: "public_ip_facts_webserver"
+  
+  - name: Set Fact webserver_ip_fact
+    set_fact:
+      webserver_ip_fact: "{{ item.ip_address }}"
+    loop: "{{ public_ip_facts_webserver.publicipaddresses }}"
+  
+  - name: print webserver public ip
+    debug:
+     msg: "{{ webserver_ip_fact }}"
+  
+  - name: add webserver to ansible host file
+    add_host:
+      name: "{{ webserver_ip_fact }}"
+      groups: webserver
+
+  - name: Copy SSH ID
+    shell: |
+      ssh-copy-id "{{ adminUser }}@{{ webserver_ip_fact }}"
