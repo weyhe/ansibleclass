@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  vars:
+    hostname: "vcenter.ansible.local"
+    esxihostname: "esxi.ansible.local"
+    username: "userx@vsphere.local"
+    password: "Password1!"
+    nfs_user: "user4"
+    portgroup_name: "vlan104"
+    vlan_id: "104"
+  tasks:
+  - name: Add NFS Storage ESXi
+    vmware_host_datastore:
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      esxi_hostname: "{{ esxihostname }}"
+      datastore_name: "datastore_{{ nfs_user }}"
+      datastore_type: "nfs"
+      nfs_server: "storage.ansible.local"
+      nfs_path: "/storage/{{ nfs_user }}"
+      nfs_ro: "no"
+      state: "present"
+      validate_certs: "False"
+    delegate_to: "localhost"
