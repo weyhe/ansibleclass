@@ -24,14 +24,14 @@
       validate_certs: "False"
     delegate_to: "localhost"
 
-    - name: Add a PortGroup to VMware vSwitch
-        vmware_portgroup:
-          hostname: "{{ hostname }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
-          validate_certs: False
-          switch_name: "vSwitch0"
-          esxi_hostname: "{{ esxihostname }}"
-          portgroup_name: "{{ portgroup_name }}"
-          vlan_id: "{{ vlan_id }}"
-        delegate_to: localhost
+- name: Add a PortGroup to VMware vSwitch
+    vmware_portgroup:
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: False
+      switch_name: "vSwitch0"
+      esxi_hostname: "{{ esxihostname }}"
+      portgroup_name: "{{ portgroup_name }}"
+      vlan_id: "{{ vlan_id }}"
+    delegate_to: localhost
