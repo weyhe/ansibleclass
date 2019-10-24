@@ -6,7 +6,7 @@
   - name: Create file
     file:
       path: /root/testfile.txt
-      state: file
+      state: touch
 
   - name: Add line in file
     lineinfile:
