@@ -111,3 +111,11 @@
   - name: Copy SSH ID
     shell: |
       ssh-copy-id "{{ adminUser }}@{{ webserver_ip_fact }}"
+  - hosts: webserver
+    become: yes
+    vars:
+    tasks:
+    - name: Install Apache
+      dnf:
+        name: httpd
+        state: latest
