@@ -3,10 +3,10 @@
   connection: local
   vars:
     location: northeurope
-    virtual_network_name: webserver_userxx
+    virtual_network_name: webserver_user4
     subnet: Webserver
-    resource_group: webserver_userxx
-    domain_sub: domainuserxx
+    resource_group: webserver_user4
+    domain_sub: domainuser4
 
   vars_prompt:
     - name: adminUser
