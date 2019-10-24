@@ -114,6 +114,8 @@
 - hosts: webserver
   become: yes
   vars:
+    websiteheader: "Ansible Playbook"
+    websiteauthor: "Weyhe"
   tasks:
   - name: Install Apache
     dnf:
@@ -134,10 +136,6 @@
       immediate: yes
     notify:
       - reload firewall
-  
-    vars:
-      websiteheader: "Ansible Playbook"
-      websiteauthor: "Weyhe"
 
   - name: Add index.html
     template:
