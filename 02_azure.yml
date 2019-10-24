@@ -7,8 +7,7 @@
     subnet: Webserver
     resource_group: webserver_user4
     domain_sub: domainuser4
-    websiteheader: "Ansible Playbook"
-    websiteauthor: "Weyhe"
+
 
   vars_prompt:
     - name: adminUser
@@ -111,7 +110,7 @@
   - name: Copy SSH ID
     shell: |
       ssh-copy-id "{{ adminUser }}@{{ webserver_ip_fact }}"
-      
+
 - hosts: webserver
   become: yes
   vars:
@@ -136,6 +135,10 @@
     notify:
       - reload firewall
   
+    vars:
+      websiteheader: "Ansible Playbook"
+      websiteauthor: "Weyhe"
+
   - name: Add index.html
     template:
       src: index.html.j2
