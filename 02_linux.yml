@@ -1,0 +1,11 @@
+---
+- hosts: linuxservers
+  become: yes
+
+  vars:
+    timezone: "Europe/Copenhagen"
+
+  tasks:
+  - name: Set timezone
+    timezone:
+      name: "{{ timezone }}"
