@@ -1,0 +1,114 @@
+---
+- hosts: localhost
+  vars:
+   host: "10.172.10.1"
+   username: "user4"
+   vlanid: "104"
+   vdom: "root"
+   ssl_verify: "False"
+  vars_prompt:
+   - name: password
+     prompt: "Type the password of your fortigate admin account"
+     private: no
+  tasks:
+  - name: Configure firewall interface switch -> vlan_10x
+    fortios_firewall_policy:
+      host:  "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vdom:  "{{ vdom }}"
+      https: "False"
+      state: "present"
+      firewall_policy:
+        action: "accept"
+        name: "switch to vlan_{{ vlanid }}"
+        srcintf:
+         -
+           name: "switch"
+        dstintf:
+         -
+           name: "vlan_{{ vlanid }}"
+        srcaddr:
+         -
+           name: "switch address"
+        dstaddr:
+         -
+           name: "vlan_{{ vlanid }} address"
+        schedule: "always"
+        service:
+         -
+           name: "HTTP"
+         -
+           name: "SSH"
+        fsso: "disable"
+        status: enable
+        policyid: "{{ vlanid }}1"
+  - name: Configure firewall interface vlan_10x -> switch
+    fortios_firewall_policy:
+      host:  "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vdom:  "{{ vdom }}"
+      https: "False"
+      state: "present"
+      firewall_policy:
+        action: "accept"
+        name: "vlan_{{ vlanid }} to switch"
+        srcintf:
+         -
+           name: "vlan_{{ vlanid }}"
+        dstintf:
+         -
+           name: "switch"
+        srcaddr:
+         -
+           name: "vlan_{{ vlanid }} address"
+        dstaddr:
+         -
+           name: "switch address"
+        schedule: "always"
+        service:
+         -
+           name: "ALL"
+        fsso: "disable"
+        status: enable
+        policyid: "{{ vlanid }}2"
+  - name: Configure firewall interface vlan_10x -> wan1
+    fortios_firewall_policy:
+      host:  "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vdom:  "{{ vdom }}"
+      https: "False"
+      state: "present"
+      firewall_policy:
+        action: "accept"
+        name: "vlan_{{ vlanid }} to wan1"
+        srcintf:
+         -
+           name: "vlan_{{ vlanid }}"
+        dstintf:
+         -
+           name: "wan1"
+        srcaddr:
+         -
+           name: "vlan_{{ vlanid }} address"
+        dstaddr:
+         -
+           name: "all"
+        schedule: "always"
+        service:
+         -
+           name: "HTTP"
+         -
+           name: "HTTPS"
+         -
+           name: "DNS"
+         -
+           name: "SSH"
+         -
+           name: "ALL_ICMP"
+        fsso: "disable"
+        status: enable
+        policyid: "{{ vlanid }}3"
+        nat: "enable"
