@@ -70,3 +70,20 @@
         - name: "webserver_nic01_ipconfig"
           public_ip_address_name: "public_ip_webserver"
           primary: True
+  
+  - name: Create a VM webserver
+    azure_rm_virtualmachine:
+      resource_group: "{{ resource_group }}"
+      name: "webserver"
+      os_type: Linux
+      admin_username: "{{ adminUser }}"
+      admin_password: "{{ adminPassword }}"
+      managed_disk_type: Standard_LRS
+      state: present
+      image:
+        offer: RHEL
+        publisher: RedHat
+        sku: 8
+        version: latest
+      vm_size: Standard_A1_v2
+      network_interfaces: "webserver_nic01"
