@@ -4,7 +4,7 @@
   tasks:
   - name: Create resource group
     azure_rm_resourcegroup:
-      name: webserver_user04
+      name: webserver_user4
       location: northeurope
     register: rg
   - debug:
