@@ -1,0 +1,15 @@
+---
+- hosts: linuxservers
+  become: yes
+  
+  tasks:
+  - name: dnf update
+    dnf:
+      name: "*"
+      state: latest
+    notify:
+      - reboot server
+
+  handlers:
+  - name: reboot server
+    reboot:
